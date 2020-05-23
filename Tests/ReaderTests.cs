@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Scrubber;
 using Xunit;
@@ -8,30 +7,23 @@ namespace Tests
 {
     public class ReaderTests
     {
-        private readonly string _testFilePath = $@"{Directory.GetCurrentDirectory()}/TestData/Reader.html";
-        private readonly string _testSiteUrl = "http://fuckcombustion.com/";
+        private readonly string _testSiteUrl = "http://fuckcombustion.com/threads/volcano-hybrid.36986/";
 
         [Fact]
-        public async Task ReturnsString()
+        public void ReturnsString()
         {
-            Assert.IsType<string>(await Reader.ReadHtml(new Uri(_testSiteUrl)));
+            Assert.IsType<string>(Reader.GetPage(new Uri(_testSiteUrl)));
         }
 
         [Fact]
-        public void RemovesAllScriptTags()
+        public async Task ExtractCss()
         {
-            var html = File.ReadAllText(_testFilePath);
+            var html = await Reader.GetPage(new Uri(_testSiteUrl)).Result.Content.ReadAsStringAsync();
+            var baseUrl = _testSiteUrl.Substring(0, _testSiteUrl.IndexOf("/threads", StringComparison.Ordinal));
 
-            var result = html.RemoveAllScripts();
+            var css = Reader.ExtractCss(html, baseUrl);
 
-            Assert.DoesNotContain("<script", result);
-        }
-
-        [Fact]
-        public void CssExpanded()
-        {
-            // load file
-            // foreach link with .css in its ref, download file contents and replace link tag with expanded script tag
+            Assert.IsType<string>(css);
         }
     }
 }

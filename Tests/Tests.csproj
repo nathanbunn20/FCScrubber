@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="TestData\css\test.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\Reader.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

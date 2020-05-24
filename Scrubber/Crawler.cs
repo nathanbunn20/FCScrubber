@@ -41,16 +41,17 @@ namespace Scrubber
 
             var htmlResults = htmlReaders.Select(r => r.Result).ToList();
             var css = Reader.ExtractCss(htmlResults.First(), $"http://{baseThreadUri.Authority}");
-            var threadName = GetThreadName(baseThreadUri.Host);
+            var threadName = GetThreadName(baseThreadUri.AbsoluteUri);
 
             var htmls = new List<string>();
 
             foreach (var htmlResult in htmlResults)
             {
                 var scriptsRemoved = Deleter.RemoveAllUnwanted(htmlResult);
-                var cssUpdated = Updater.UpdateCssLinks(scriptsRemoved);
+                var cssUpdated = Updater.UpdateCssLinks(scriptsRemoved, css);
+                var linksUpdated = Updater.UpdateThreadLinks(cssUpdated, threadName);
 
-                htmls.Add(cssUpdated);
+                htmls.Add(linksUpdated);
             }
 
             SaveThread(threadName, htmls, css);
@@ -74,7 +75,7 @@ namespace Scrubber
         {
             var chunks = threadUrl.Split('/');
 
-            return chunks[chunks.Length - 1];
+            return chunks[chunks.Length - 2];
         }
 
         private static Uri GetBaseThreadUri(string threadUrl)

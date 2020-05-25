@@ -16,12 +16,12 @@ namespace Scrubber
                 .SelectNodes(".//link[@rel='stylesheet']")
                 .ToList()
                 .ForEach(n => { n.Remove(); });
+//
+//            document.DocumentNode.SelectSingleNode(".//head")
+//                .AppendChild(HtmlNode.CreateNode($"<link ref=\"stylesheet\" href=\"main.css\" type=\"text/css\" >{Environment.NewLine}"));
 
             document.DocumentNode.SelectSingleNode(".//head")
-                .AppendChild(HtmlNode.CreateNode($"<link ref=\"stylesheet\" href=\"main.css\" type=\"text/css\" >{Environment.NewLine}"));
-
-            //            document.DocumentNode.SelectSingleNode(".//head")
-            //                .AppendChild(HtmlNode.CreateNode($"<style>{Environment.NewLine}{css}{Environment.NewLine}</style>{Environment.NewLine}"));
+                .AppendChild(HtmlNode.CreateNode($"<style>{Environment.NewLine}{css}{Environment.NewLine}</style>{Environment.NewLine}"));
 
             return document.DocumentNode.OuterHtml;
         }

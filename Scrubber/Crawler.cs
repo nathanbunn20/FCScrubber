@@ -68,7 +68,7 @@ namespace Scrubber
                 File.WriteAllText(Path.Combine(targetPath, $"page-{i + 1}.html"), htmls[i]);
             }
 
-            File.WriteAllText(Path.Combine(targetPath, "main.css"), css);
+            // File.WriteAllText(Path.Combine(targetPath, "main.css"), css);
         }
 
         private static string GetThreadName(string threadUrl)
